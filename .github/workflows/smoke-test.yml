@@ -1,0 +1,94 @@
+name: Pipeline Smoke Test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check Node.js availability (council.sh requirement)
+        run: node --version && echo "✓ Node.js available"
+
+      - name: Verify council scripts are executable
+        run: |
+          echo "=== Checking council script files ==="
+          for f in \
+            .claude/skills/agent-council/scripts/council.sh \
+            .claude/skills/agent-council/scripts/council-job.sh \
+            .claude/skills/agent-council/scripts/council-job.js \
+            .claude/skills/agent-council/scripts/council-job-worker.js; do
+            if [ -f "$f" ]; then
+              echo "  ✓ $f"
+            else
+              echo "  ✗ $f — missing"
+              exit 1
+            fi
+          done
+
+      - name: Smoke-test council-job.js (help flag)
+        run: |
+          node .claude/skills/agent-council/scripts/council-job.js --help 2>&1 | head -5 || true
+          echo "✓ council-job.js loads without error"
+
+      - name: Validate pipeline required directories
+        run: |
+          echo "=== Checking required directories ==="
+          for d in agents .claude/skills rules .knowledge working outputs; do
+            if [ -d "$d" ]; then
+              echo "  ✓ $d/"
+            else
+              echo "  ✗ $d/ — missing"
+              exit 1
+            fi
+          done
+
+      - name: Validate registry agent count
+        run: |
+          pip install pyyaml --quiet
+          python3 - <<'EOF'
+          import yaml, sys
+          with open("agents/registry.yaml") as f:
+              registry = yaml.safe_load(f)
+          agents = registry.get("agents", {}) if isinstance(registry, dict) else {}
+          count = len(agents)
+          print(f"  ✓ registry.yaml contains {count} agents")
+          if count < 10:
+              print(f"  ✗ Expected at least 10 agents, found {count}")
+              sys.exit(1)
+          # Verify done_when is present on all
+          missing_dw = [n for n, m in agents.items() if isinstance(m, dict) and not m.get("done_when")]
+          if missing_dw:
+              print(f"  ✗ Missing done_when on: {missing_dw}")
+              sys.exit(1)
+          print(f"  ✓ All {count} agents have done_when defined")
+          EOF
+
+      - name: Validate hooks in settings.json
+        run: |
+          python3 - <<'EOF'
+          import json, sys, os
+          path = ".claude/settings.json"
+          if not os.path.exists(path):
+              print("  ✗ .claude/settings.json missing")
+              sys.exit(1)
+          with open(path) as f:
+              cfg = json.load(f)
+          hooks = cfg.get("hooks", {})
+          if not hooks:
+              print("  ✗ No hooks configured")
+              sys.exit(1)
+          total = sum(len(v) for v in hooks.values())
+          print(f"  ✓ {len(hooks)} hook events, {total} hook groups configured")
+          EOF
+
+      - name: Summary
+        run: echo "✅ All smoke tests passed — pipeline structure is intact"

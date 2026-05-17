@@ -1,0 +1,102 @@
+name: Check Internal References
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check agents/INDEX.md pattern file references
+        run: |
+          echo "=== Checking pattern file references in INDEX.md ==="
+          python3 - <<'EOF'
+          import re, sys, os
+          with open("agents/INDEX.md") as f:
+              content = f.read()
+          paths = re.findall(r'`(agents/patterns/[^`]+\.md)`', content)
+          missing = []
+          for p in paths:
+              if not os.path.exists(p):
+                  missing.append(f"  ✗ {p}")
+              else:
+                  print(f"  ✓ {p}")
+          if missing:
+              print("\nMissing pattern files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF
+
+      - name: Check agent file cross-references
+        run: |
+          echo "=== Checking agent md files exist ==="
+          python3 - <<'EOF'
+          import re, sys, os
+          with open("agents/INDEX.md") as f:
+              content = f.read()
+          paths = re.findall(r'`(agents/[^/`]+\.md)`', content)
+          missing = []
+          for p in set(paths):
+              if not os.path.exists(p):
+                  missing.append(f"  ✗ {p}")
+              else:
+                  print(f"  ✓ {p}")
+          if missing:
+              print("\nMissing agent files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF
+
+      - name: Check rules/ references in CLAUDE.md
+        run: |
+          echo "=== Checking rules/ file references ==="
+          python3 - <<'EOF'
+          import re, sys, os
+          with open("CLAUDE.md") as f:
+              content = f.read()
+          paths = re.findall(r'`(rules/[^`]+\.md)`', content)
+          missing = []
+          for p in set(paths):
+              if not os.path.exists(p):
+                  missing.append(f"  ✗ {p}")
+              else:
+                  print(f"  ✓ {p}")
+          if missing:
+              print("\nMissing rules files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF
+
+      - name: Check runbook references
+        run: |
+          echo "=== Checking runbook.md exists ==="
+          test -f .claude/skills/run-pipeline/runbook.md && echo "  ✓ runbook.md" || (echo "  ✗ runbook.md missing" && exit 1)
+
+      - name: Check knowledge/ structure
+        run: |
+          echo "=== Checking .knowledge/ required files ==="
+          python3 - <<'EOF'
+          import sys, os
+          required = [
+              ".knowledge/active.yaml",
+          ]
+          missing = []
+          for p in required:
+              if not os.path.exists(p):
+                  missing.append(f"  ✗ {p}")
+              else:
+                  print(f"  ✓ {p}")
+          if missing:
+              print("\nMissing knowledge files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF

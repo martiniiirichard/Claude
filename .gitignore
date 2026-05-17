@@ -72,6 +72,10 @@ package-lock.json
 yarn.lock
 .npm/
 
+# Agent Council runtime artifacts
+.claude/skills/agent-council/.jobs/
+.claude/skills/agent-council/node_modules/
+
 # Data files -- block all CSVs by default
 data/**/*.csv
 data/**/*.duckdb

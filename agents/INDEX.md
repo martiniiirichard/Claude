@@ -19,6 +19,7 @@
 | `{{FIX_REPORT}}` | Visual Design Critic feedback | Chart Maker (fix pass) |
 | `{{DECK_FILE}}` | Generated deck path | Visual Design Critic |
 | `{{CONFIDENCE_GRADE}}` | Validation confidence score (A-F) | Storytelling, Deck Creator |
+| `{{DONE_WHEN}}` | Completion condition string from `registry.yaml` for the current agent | Run Pipeline (VALIDATE step of the Plan→Execute→Validate→Repair→Checkpoint loop) |
 
 ## Agents
 | Agent | Path | Invoke When |
@@ -41,3 +42,16 @@
 | Validation | `agents/validation.md` | Need to verify findings before presenting |
 | Deck Creator | `agents/deck-creator.md` | Need to create a presentation from analysis. Supports `{{THEME}}` (analytics-dark) and `{{CONTEXT}}` (workshop/talk closing sequence). |
 | Comms Drafter | `agents/comms-drafter.md` | Need stakeholder communications (Slack summary, email brief, exec summary). Non-critical — pipeline continues if this fails. |
+
+## Reusable Patterns
+
+Inline reasoning templates. Read the file and follow the steps — no variable substitution needed.
+
+| Pattern | Path | Use When |
+|---------|------|----------|
+| Check Simpson's Paradox | `agents/patterns/check-simpsons-paradox.md` | Before concluding any aggregate metric comparison — required by Rule 13 |
+| Triage SQL Error | `agents/patterns/triage-sql-error.md` | Query errors, returns 0 rows, or produces implausible numbers |
+| Draft Hypothesis | `agents/patterns/draft-hypothesis.md` | Starting root-cause analysis — generate hypotheses across 4 cause categories before touching data |
+| Size Opportunity | `agents/patterns/size-opportunity.md` | After identifying a root cause — quantify impact with low/base/high scenarios and break-even |
+| Prioritize Findings | `agents/patterns/prioritize-findings.md` | Triaging multiple findings or issues — rank by (Severity × Frequency × Confidence × Blast Radius × Upstream-ness) ÷ TTL |
+| Cross-Modal Consistency | `agents/patterns/check-cross-modal-consistency.md` | After deck/narrative generation — verify chart numbers match narrative claims and source data |

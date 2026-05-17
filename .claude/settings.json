@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);const cmd=(j.tool_input&&j.tool_input.command)||'';if(cmd)require('fs').appendFileSync('working/bash-log.txt',new Date().toISOString()+'\\t'+cmd+'\\n');}catch(e){}});\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);const fp=(j.tool_input&&j.tool_input.file_path)||'';const finals=['analysis_report_','narrative_','deck_','validation_','close_the_loop_','question_brief_','hypothesis_doc_'];const isFinal=finals.some(p=>fp.includes(p));if(isFinal&&!fp.toLowerCase().includes('outputs')){process.stdout.write(JSON.stringify({hookSpecificOutput:{hookEventName:'PreToolUse',additionalContext:'Rule 5: Final deliverable detected outside outputs/. Should go to outputs/.'}}));};}catch(e){}});\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

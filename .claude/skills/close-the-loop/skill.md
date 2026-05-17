@@ -22,6 +22,19 @@ Append this checklist to the end of every analysis report or presentation that i
 - **Decision made:** [ ] Yes / [ ] No / [ ] Deferred
 - **Decision outcome:** [What was actually decided — fill in after]
 
+### Pre-Committed Reversal Conditions
+
+Define the decision rule BEFORE seeing post-launch results — this prevents post-hoc rationalization.
+
+| Outcome | Trigger condition | Action |
+|---------|------------------|--------|
+| **Ship** | [Metric] ≥ [target threshold] after [measurement window] | Full rollout; document learnings |
+| **Ramp** | [Metric] between [floor] and [target] | Expand incrementally; re-evaluate at [date] |
+| **Hold** | [Metric] < [floor] OR [guardrail metric] > [guardrail threshold] | Pause rollout; investigate before proceeding |
+| **Rollback** | [Guardrail metric] > [hard limit] OR [leading indicator] < [critical floor] | Immediate revert; post-mortem within 48h |
+
+*Fill in the bracketed values from the opportunity sizing model or success tracking targets above. A Rollback trigger must be defined before any recommendation goes to engineering.*
+
 ### Success Tracking
 - **Success metric:** [What metric will tell us the recommendation worked?]
 - **Current baseline:** [What is the metric today?]
@@ -78,6 +91,82 @@ When the user must fill in fields, prompt them explicitly:
 > 1. Who will decide whether to proceed? (decision maker)
 > 2. By when does this need to be decided? (deadline)
 > 3. Who will check whether it worked? (follow-up owner)
+
+### Writing outcome.yaml
+
+After collecting all checklist fields (prompting the user for the four required ones), write a machine-readable `outcome.yaml` to the run directory. This is what `/runs outcomes` reads to surface pending check-ins across all analyses.
+
+**Write location:**
+- Inside pipeline: `{RUN_DIR}/outcome.yaml` (same directory as `pipeline_state.json`)
+- Standalone (no pipeline run): `working/outcome.yaml`
+
+**Schema:**
+
+```yaml
+# outcome.yaml — written by Close-the-Loop, updated manually after check-in
+run_id: "{run_id}"                # from pipeline_state.json, or "standalone_{date}"
+analysis_date: "{YYYY-MM-DD}"
+analyst: "AI Product Analyst"
+confidence_level: HIGH             # HIGH / MEDIUM / LOW
+
+decision:
+  recommendation: "{recommendation}"
+  decision_maker: "{name or role}"
+  decision_deadline: "{YYYY-MM-DD}"
+  decision_made: null              # null=pending, true=yes, false=no or deferred
+  decision_outcome: null           # fill in after decision
+
+success_tracking:
+  metric: "{metric name}"
+  baseline: "{current value with units}"
+  target: "{expected value with units}"
+  measurement_window: "{e.g. 2 weeks after deploy}"
+  data_source: "{table.column or query description}"
+  break_even: null                 # from Opportunity Sizer if available
+
+followup:
+  checkin_date: "{YYYY-MM-DD}"    # MUST be an absolute date, not relative
+  owner: "{name or role}"
+  if_successful: "{next step}"
+  if_unsuccessful: "{fallback}"
+  if_inconclusive: "{what additional data or time is needed}"
+
+outcome:
+  status: pending                  # pending / successful / unsuccessful / inconclusive
+  observed_value: null             # what the metric actually showed
+  notes: null
+  evaluated_at: null               # YYYY-MM-DD when outcome was recorded
+
+assumptions:
+  - "{assumption 1}"
+  - "{assumption 2}"
+
+what_would_change: "{condition that would invalidate the recommendation}"
+```
+
+**Rules:**
+- `checkin_date` must be an absolute date. Convert any relative phrasing ("2 weeks after deploy") to a calendar date using today's date as the reference point. Ask the user if the deploy date is unknown.
+- Write atomically (write to `outcome.yaml.tmp`, then rename) to prevent partial writes.
+- If any field cannot be determined, write `null` — do not omit the key.
+- After writing, confirm: `"outcome.yaml written to {path}. Update outcome.status after the check-in date."`
+
+### Security Impact Check
+
+Before finalizing the checklist, scan the recommendation for security implications. If any apply, add a **Security Impact** line to Analysis Provenance.
+
+| Risk type | Ask yourself | Flag if... |
+|-----------|-------------|------------|
+| Data access expansion | Does this broaden who can see what data? | New roles, dashboards, or exports are involved |
+| PII exposure | Does this collect, process, or display user personal data? | New event tracking, new fields in reports |
+| Auth / authz changes | Does this change permissions, roles, or login flows? | Any access control modification |
+| Third-party data sharing | Does this send user data to a new external service? | New integrations, webhooks, or APIs |
+
+If any flag is triggered, add to the Analysis Provenance section:
+```
+- **Security impact:** [Brief description — who should review before implementation]
+```
+
+If none apply, omit the field.
 
 ### Connecting to Opportunity Sizing
 

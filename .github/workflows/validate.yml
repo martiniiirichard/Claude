@@ -1,0 +1,90 @@
+name: Validate Config Files
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          echo "=== Validating JSON files ==="
+          fail=0
+          for f in .mcp.json .claude/settings.json .claude/settings.local.json; do
+            if [ -f "$f" ]; then
+              if python3 -m json.tool "$f" > /dev/null 2>&1; then
+                echo "  ✓ $f"
+              else
+                echo "  ✗ $f — invalid JSON"
+                fail=1
+              fi
+            fi
+          done
+          exit $fail
+
+      - name: Validate YAML files
+        run: |
+          pip install yamllint --quiet
+          echo "=== Validating YAML files ==="
+          fail=0
+          for f in agents/registry.yaml .knowledge/active.yaml; do
+            if [ -f "$f" ]; then
+              if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$f" > /dev/null 2>&1; then
+                echo "  ✓ $f"
+              else
+                echo "  ✗ $f — YAML errors:"
+                yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$f"
+                fail=1
+              fi
+            fi
+          done
+          exit $fail
+
+      - name: Validate registry agent files exist
+        run: |
+          echo "=== Checking registry.yaml agent file references ==="
+          python3 - <<'EOF'
+          import yaml, sys, os
+          with open("agents/registry.yaml") as f:
+              registry = yaml.safe_load(f)
+          agents = registry.get("agents", {}) if isinstance(registry, dict) else {}
+          missing = []
+          for name, meta in agents.items():
+              path = meta.get("path", "") if isinstance(meta, dict) else ""
+              if path and not os.path.exists(path):
+                  missing.append(f"  ✗ {name}: {path}")
+              elif path:
+                  print(f"  ✓ {name}")
+          if missing:
+              print("\nMissing agent files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF
+
+      - name: Validate skill table paths in CLAUDE.md
+        run: |
+          echo "=== Checking CLAUDE.md skill paths ==="
+          python3 - <<'EOF'
+          import re, sys, os
+          with open("CLAUDE.md") as f:
+              content = f.read()
+          paths = re.findall(r'`(\.claude/skills/[^`]+/skill\.md)`', content)
+          missing = []
+          for p in paths:
+              if not os.path.exists(p):
+                  missing.append(f"  ✗ {p}")
+              else:
+                  print(f"  ✓ {p}")
+          if missing:
+              print("\nMissing skill files:")
+              for m in missing:
+                  print(m)
+              sys.exit(1)
+          EOF

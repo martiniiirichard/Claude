@@ -31,6 +31,7 @@ agents:
     outputs:
       - outputs/question_brief_{{DATE}}.md
     knowledge_context: []
+    done_when: "Question brief saved to outputs/question_brief_*.md with decision framing, key dimensions, and success criteria defined."
 
   # ── Phase 2: Hypotheses ───────────────────────────────────────────
   # NOTE: hypothesis has no downstream DAG edges — its output is injected
@@ -49,6 +50,7 @@ agents:
     outputs:
       - outputs/hypothesis_doc_{{DATE}}.md
     knowledge_context: []
+    done_when: "Hypothesis doc saved with ≥3 testable hypotheses spanning ≥2 cause categories (Product Changes, Technical Issues, External Factors, Mix Shift)."
 
   # ── Phase 3: Data Discovery & Verification ────────────────────────
 
@@ -66,6 +68,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Data inventory saved listing all tables, row counts, column types, null rates, and date ranges."
 
   - name: source-tieout
     file: agents/source-tieout.md
@@ -84,6 +87,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Tieout file saved confirming pandas vs DuckDB counts and sums match within tolerance. No MISMATCH rows present."
 
   # ── Phase 4: Analysis ─────────────────────────────────────────────
 
@@ -106,6 +110,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Analysis report saved with segment comparisons or funnel/trend data and at least one supporting chart."
 
   - name: overtime-trend
     file: agents/overtime-trend.md
@@ -127,6 +132,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Trend report saved with time-series data, anomaly flags, and at least one time-series chart."
 
   - name: cohort-analysis
     file: agents/cohort-analysis.md
@@ -148,6 +154,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Cohort analysis saved with retention grid, LTV curves, and heatmap chart files present on disk."
 
   # ── Phase 5: Investigation ────────────────────────────────────────
 
@@ -170,6 +177,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Investigation file saved with specific root cause identified, supporting evidence cited, and drill-down path documented."
 
   # ── Phase 6: Validation & Sizing ──────────────────────────────────
 
@@ -189,6 +197,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Validation report saved with all 4-layer check results (structural, logical, business rules, Simpson's paradox) and confidence grade A-F. No unresolved BLOCKERs."
 
   - name: opportunity-sizer
     file: agents/opportunity-sizer.md
@@ -207,6 +216,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Sizing file saved with opportunity quantification, low/base/high scenarios, and break-even estimate."
 
   # ── Phase 7: Storytelling & Presentation ──────────────────────────
 
@@ -225,6 +235,7 @@ agents:
       - working/storyboard_{{DATASET}}.md
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Storyboard saved with Context-Tension-Resolution narrative beats, each mapped to a slide format and chart type."
 
   - name: narrative-coherence-reviewer
     file: agents/narrative-coherence-reviewer.md
@@ -240,6 +251,7 @@ agents:
     outputs:
       - working/coherence_review_{{DATASET}}.md
     knowledge_context: []
+    done_when: "Coherence review saved with verdict: APPROVED, APPROVED WITH FIXES, or NEEDS REVISION."
 
   - name: chart-maker
     file: agents/chart-maker.md
@@ -257,6 +269,7 @@ agents:
       - outputs/charts/{{OUTPUT_NAME}}.svg
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Chart PNG saved at outputs/charts/{{OUTPUT_NAME}}.png. SWD style applied (swd_style() called, action title set)."
 
   - name: visual-design-critic
     file: agents/visual-design-critic.md
@@ -274,6 +287,7 @@ agents:
       - working/design_review_{{DATASET}}.md
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Design review saved with verdict APPROVED, APPROVED WITH FIXES, or NEEDS REVISION per the SWD checklist."
 
   - name: chart-maker-fixes
     file: agents/chart-maker.md
@@ -294,6 +308,7 @@ agents:
     # Only runs when visual-design-critic verdict is APPROVED WITH FIXES.
     # Skipped when verdict is APPROVED. Pipeline HALTs when NEEDS REVISION.
     conditional: true
+    done_when: "Fixed chart PNG saved at outputs/charts/{{OUTPUT_NAME}}.png. All issues from FIX_REPORT addressed."
 
   - name: storytelling
     file: agents/storytelling.md
@@ -311,6 +326,7 @@ agents:
       - outputs/narrative_{{DATASET_NAME}}_{{DATE}}.md
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Narrative saved with Context-Tension-Resolution structure, stakeholder-adapted language, and citations on every key finding."
 
   - name: deck-creator
     file: agents/deck-creator.md
@@ -334,6 +350,7 @@ agents:
       - outputs/deck_{{DATASET_NAME}}_{{DATE}}.html
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Marp deck saved at outputs/deck_*.marp.md with all storyboard beats covered, theme applied, and no missing chart references."
 
   - name: visual-design-critic-slides
     file: agents/visual-design-critic.md
@@ -351,6 +368,7 @@ agents:
       - working/slide_review_{{DATASET}}.md
     knowledge_context:
       - .knowledge/datasets/{active}/manifest.yaml
+    done_when: "Slide review saved with verdict and any font size, theme consistency, or dark-mode contrast issues flagged."
 
   # ── Phase 8: Close the Loop ────────────────────────────────────────
 
@@ -367,6 +385,7 @@ agents:
     outputs:
       - outputs/close_the_loop_{{DATE}}.md
     knowledge_context: []
+    done_when: "Close-the-loop output saved with decision owner, success metric, absolute checkin date, and fallback plan defined. outcome.yaml written."
 
   # ── Standalone (no pipeline_step) ─────────────────────────────────
 
@@ -385,6 +404,7 @@ agents:
     knowledge_context:
       - .knowledge/datasets/{active}/schema.md
       - .knowledge/datasets/{active}/quirks.md
+    done_when: "Experiment design saved with hypothesis, sample size, power estimate, decision rule, and guardrail metrics defined."
 
   - name: comms-drafter
     file: agents/comms-drafter.md
@@ -403,3 +423,4 @@ agents:
     outputs:
       - working/comms_draft.md
     knowledge_context: []
+    done_when: "Comms draft saved in the requested format (Slack/email/brief) with key findings, recommendation, and confidence grade included."

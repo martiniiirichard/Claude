@@ -173,6 +173,19 @@ def check_internal_consistency(findings):
 **How to check:** Look for confounders. Ask "what else changed at the same time?" Check if the relationship holds across different segments.
 **Example:** "Users who use Feature X have 2x retention" — but maybe power users both use Feature X AND have high retention because they're power users, not because Feature X causes retention.
 
+### Evidence Confidence Labels
+
+Every finding statement must carry one of these four labels. Choose based on the weakest evidence in the finding's support chain:
+
+| Label | Meaning | Typical source |
+|-------|---------|----------------|
+| `[VERIFIED]` | Confirmed by 2+ independent checks; numbers reconcile | Two queries from different tables agree; cross-ref passed |
+| `[ESTIMATED]` | Calculated from data but relies on assumptions or extrapolation | Opportunity sizing with assumed rates; partial time windows |
+| `[INFERRED]` | Logical deduction from observed patterns; not directly measured | Root cause identified by elimination; correlation-based |
+| `[BENCHMARKED]` | Compared against external industry data; interpretation depends on benchmark quality | SaaS conversion vs. Mixpanel benchmarks |
+
+Apply the label in the finding heading and propagate it to the executive summary. If a finding mixes evidence types, label it with the weakest.
+
 ### Output Format: Validation Report
 
 ```markdown
@@ -183,7 +196,7 @@ def check_internal_consistency(findings):
 
 ### Finding-by-Finding Validation
 
-#### Finding 1: [statement]
+#### Finding 1 [VERIFIED | ESTIMATED | INFERRED | BENCHMARKED]: [statement]
 | Check | Result | Detail |
 |-------|--------|--------|
 | Internal consistency | PASS/WARN/FAIL | [specifics] |

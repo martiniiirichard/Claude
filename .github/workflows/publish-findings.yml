@@ -1,0 +1,108 @@
+name: Publish Findings
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "outputs/**"
+      - "working/**"
+      - ".knowledge/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build findings site
+        run: |
+          mkdir -p _site
+
+          # Copy outputs
+          if [ -d outputs ] && [ "$(ls -A outputs)" ]; then
+            cp -r outputs _site/outputs
+          else
+            mkdir -p _site/outputs
+          fi
+
+          # Generate index.html
+          python3 - <<'PYEOF'
+          import os, datetime
+
+          outputs_dir = "_site/outputs"
+          files = []
+          if os.path.exists(outputs_dir):
+              for root, dirs, fnames in os.walk(outputs_dir):
+                  for fname in sorted(fnames):
+                      rel = os.path.relpath(os.path.join(root, fname), "_site")
+                      mtime = os.path.getmtime(os.path.join(root, fname))
+                      dt = datetime.datetime.fromtimestamp(mtime).strftime("%Y-%m-%d")
+                      files.append((dt, rel, fname))
+
+          files.sort(reverse=True)
+
+          rows = ""
+          for dt, rel, fname in files:
+              rows += f'<tr><td>{dt}</td><td><a href="{rel}">{fname}</a></td></tr>\n'
+
+          if not rows:
+              rows = '<tr><td colspan="2"><em>No findings published yet. Run a pipeline and push outputs/ to main.</em></td></tr>'
+
+          html = f"""<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>AI Analyst — Findings</title>
+            <style>
+              body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #222; }}
+              h1 {{ font-size: 1.6rem; border-bottom: 2px solid #0969da; padding-bottom: 8px; }}
+              p.meta {{ color: #666; font-size: 0.9rem; }}
+              table {{ width: 100%; border-collapse: collapse; margin-top: 24px; }}
+              th {{ text-align: left; border-bottom: 2px solid #ddd; padding: 8px 12px; font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }}
+              td {{ padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }}
+              a {{ color: #0969da; text-decoration: none; }}
+              a:hover {{ text-decoration: underline; }}
+              tr:hover td {{ background: #f6f8fa; }}
+            </style>
+          </head>
+          <body>
+            <h1>AI Analyst — Published Findings</h1>
+            <p class="meta">Auto-published from <code>outputs/</code> on every push to <code>main</code>. Last built: {datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}</p>
+            <table>
+              <thead><tr><th>Date</th><th>File</th></tr></thead>
+              <tbody>{rows}</tbody>
+            </table>
+          </body>
+          </html>"""
+
+          with open("_site/index.html", "w") as f:
+              f.write(html)
+          print(f"Built index with {len(files)} file(s)")
+          PYEOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
