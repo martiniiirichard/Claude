@@ -719,11 +719,8 @@ def suggest_segments_to_check(
         candidates = [
             col for col in df.columns
             if col != metric_column
-            and (
-                df[col].dtype == "object"
-                or df[col].dtype.name == "category"
-                or (pd.api.types.is_bool_dtype(df[col]))
-            )
+            and not pd.api.types.is_numeric_dtype(df[col])
+            and not pd.api.types.is_datetime64_any_dtype(df[col])
         ]
     else:
         candidates = [
