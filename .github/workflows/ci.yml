@@ -24,7 +24,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]" 2>/dev/null || pip install pandas matplotlib duckdb pyyaml pytest faker
+          pip install -e ".[dev]" 2>/dev/null || true
+          pip install -r requirements.txt pytest faker 2>/dev/null || pip install pandas matplotlib numpy scipy duckdb pyyaml seaborn pytest faker
 
       - name: Run tests
         run: |
