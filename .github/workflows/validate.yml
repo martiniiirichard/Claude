@@ -53,10 +53,13 @@ jobs:
           import yaml, sys, os
           with open("agents/registry.yaml") as f:
               registry = yaml.safe_load(f)
-          agents = registry.get("agents", {}) if isinstance(registry, dict) else {}
+          agents = registry.get("agents", []) if isinstance(registry, dict) else []
           missing = []
-          for name, meta in agents.items():
-              path = meta.get("path", "") if isinstance(meta, dict) else ""
+          for agent in agents:
+              if not isinstance(agent, dict):
+                  continue
+              name = agent.get("name", "?")
+              path = agent.get("file", "")
               if path and not os.path.exists(path):
                   missing.append(f"  ✗ {name}: {path}")
               elif path:

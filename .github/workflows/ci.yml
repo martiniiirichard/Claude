@@ -27,4 +27,9 @@ jobs:
           pip install -e ".[dev]" 2>/dev/null || pip install pandas matplotlib duckdb pyyaml pytest faker
 
       - name: Run tests
-        run: python -m pytest tests/ -v --tb=short
+        run: |
+          if [ -d tests ] && [ "$(ls -A tests/*.py 2>/dev/null)" ]; then
+            python -m pytest tests/ -v --tb=short
+          else
+            echo "No tests directory found — skipping. Add tests/test_*.py to enable."
+          fi

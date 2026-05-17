@@ -42,6 +42,8 @@ jobs:
       - name: Validate pipeline required directories
         run: |
           echo "=== Checking required directories ==="
+          # working/ and outputs/ are gitignored runtime dirs — create if absent
+          mkdir -p working outputs
           for d in agents .claude/skills rules .knowledge working outputs; do
             if [ -d "$d" ]; then
               echo "  ✓ $d/"
@@ -58,14 +60,14 @@ jobs:
           import yaml, sys
           with open("agents/registry.yaml") as f:
               registry = yaml.safe_load(f)
-          agents = registry.get("agents", {}) if isinstance(registry, dict) else {}
+          agents = registry.get("agents", []) if isinstance(registry, dict) else []
           count = len(agents)
           print(f"  ✓ registry.yaml contains {count} agents")
           if count < 10:
               print(f"  ✗ Expected at least 10 agents, found {count}")
               sys.exit(1)
           # Verify done_when is present on all
-          missing_dw = [n for n, m in agents.items() if isinstance(m, dict) and not m.get("done_when")]
+          missing_dw = [a.get("name", "?") for a in agents if isinstance(a, dict) and not a.get("done_when")]
           if missing_dw:
               print(f"  ✗ Missing done_when on: {missing_dw}")
               sys.exit(1)

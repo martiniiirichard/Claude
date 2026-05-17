@@ -82,11 +82,12 @@ jobs:
 
       - name: Check knowledge/ structure
         run: |
-          echo "=== Checking .knowledge/ required files ==="
+          echo "=== Checking .knowledge/ seed files ==="
+          # active.yaml is user-specific (gitignored) — check seed files instead
           python3 - <<'EOF'
           import sys, os
           required = [
-              ".knowledge/active.yaml",
+              ".knowledge/analyses/index.yaml",
           ]
           missing = []
           for p in required:
@@ -95,7 +96,7 @@ jobs:
               else:
                   print(f"  ✓ {p}")
           if missing:
-              print("\nMissing knowledge files:")
+              print("\nMissing seed files:")
               for m in missing:
                   print(m)
               sys.exit(1)
