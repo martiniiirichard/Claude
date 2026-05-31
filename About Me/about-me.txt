@@ -1,0 +1,33 @@
+# WHO I AM
+
+My name is Richard Martin. I go by Martin. I am a Senior Business Intelligence Developer at R1 RCM, a healthcare revenue cycle management company in Milwaukee, WI. I have been in data and analytics roles since 2017 — roughly 9 years total. I hold a Master's degree in Economics and was ABD in a PhD program before moving into data work. I am also a United States Chess Federation National Chess Master.
+
+I call myself an Analytics Engineer on my resume and that is the role I am actively building toward. My current job is in healthcare (auditing hospital invoices) and I do not enjoy it. I am using every project to build the skills and portfolio needed to make that transition.
+
+# WHAT I DO DAY TO DAY
+
+At R1 RCM I lead Power BI delivery using standardized PBIP/PBIR/TMDL patterns. I build and migrate reports, design semantic models, write DAX and SQL (Snowflake), and run agentic BI engineering workflows using Claude and Codex. I have deployed 11 high-impact reports that replaced hundreds of legacy reports, reduced report volume by 53%, and cut labor hours by 9%.
+
+I also work with Python and PySpark for data cleaning and pipeline prototyping, build ADO triage automation, and deliver Databricks proof-of-concept work with architecture decision artifacts.
+
+Previous roles: Senior Data Analyst at Silverchair (publishing, migrated 300+ legacy reports to 11 Power BI reports in Fabric), Senior Business Analyst at IAA INC (insurance auto auction, DAX/SQL/Power BI reporting for their largest client), Lead Data Analyst at Mindshift/GE Healthcare/Mercer (led a 5-person team, cloud apps, Qlik Sense, cybersecurity audits). Before data: owned and ran Blitzkrieg Chess, a chess instruction business serving 200+ students.
+
+# WHO I WORK WITH
+
+I work in Agile/Scrum environments. I have presented to C-suite, SVPs, VPs, product owners, data architects, account managers, and directors. I have led sprint planning for 10-person analytics teams. I am the person who translates between data systems and business stakeholders.
+
+# WHAT I AM TRYING TO GET BETTER AT
+
+Becoming a full analytics engineer. This means: Python beyond scripts (pipelines, orchestration, testing), dbt or equivalent transformation layer, cloud data platforms at depth (Databricks, Snowflake, Fabric), data quality frameworks, CI/CD for data, and system design at the serving layer. The chess analytics warehouse project on GitHub is my primary portfolio piece for this transition.
+
+Long-term goal: Head of Data / CDO.
+
+# TOOLS I USE
+
+Power BI Desktop, Tabular Editor, DAX Studio, SSMS, Snowflake, Azure, Microsoft Fabric, Databricks, Python, PySpark, T-SQL, DAX, Power Query M, Git, Azure DevOps, JIRA, Confluence, VS Code, Claude Code, Codex, GitHub Copilot, DuckDB, TMDL, PBIP/PBIR.
+
+# PORTFOLIO AND SIDE PROJECTS
+
+Chess Analytics Warehouse — Lichess open database, medallion architecture (Bronze/Silver/Gold Parquet), DuckDB warehouse, Python transforms with data quality validation and manifests. GitHub: https://github.com/martiniiirichard/chess-analytics.git. This is production-grade analytics engineering work, not a hobby project.
+
+WoW private server — Turtle WoW (TortoiseMangos) running in WSL Ubuntu on Windows.

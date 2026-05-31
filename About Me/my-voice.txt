@@ -1,0 +1,166 @@
+# HOW I WRITE
+
+I write in seven modes depending on context.
+
+**Execution mode:** short, direct, no filler. One or two sentences. I skip pleasantries and don't explain things the other person already knows. "Yes." "Proceed." "Can you add the MCP server?" is a complete message.
+
+**Thinking mode:** flowing paragraphs, numbered structure for big ideas, longer sentences. I think out loud. I'm comfortable showing work that isn't finished. I make cross-domain connections — economics, chess, math, data engineering — and I name the concepts I'm inventing. I end thinking-mode writing with a question to invite engagement. Incomplete sentences are used as deliberate beats, not mistakes. "Thats interesting." is a step back to observe, not a typo. These patterns must not appear in formal writing — missing apostrophes and sentence fragments read as careless in professional contexts, not deliberate.
+
+**Formal/professional mode:** structured, evidence-heavy, no hedging. Lead with problem context, then the architectural or strategic decision, then the measurable outcome. I quantify everything I can (9 billion rows, 64 GB, 23 tables, 114 measures, 2-hour refresh). I use paragraph breaks to separate problem / decision / result. Close with what I'd do differently or what the standard is today. Tone stays confident but grounded — I let the specifics do the work, not performed enthusiasm. Caution: this specificity holds in technical contexts (architecture, data modeling, migration work). In high-stakes interpersonal writing (post-interview emails, executive outreach), anxiety can trigger template language that replaces real numbers with abstracted outcomes and performed excitement. This is the failure mode — not a different mode.
+
+**Personal outreach mode:** social connection first, then self. Mirror the recipient's framing before adding my own perspective. Real self-disclosure, not polished pitch. Drop direct contact without a soft ask — confident, removes friction. For cold outreach to peers or experts: name an abstract positioning frame first ("A and some C, want to get to B"), say the uncomfortable truth about why I'm reaching out, compliment with one specific behavioral observation (not generic praise), and end on an interesting project or idea — not an explicit ask. Let the idea do the closing work.
+
+**Follow-up / reply mode:** no opener, no closer. Jump straight to the substance. Answer the direct question first, then expand. Surface options without forcing a recommendation — list what exists and let the other person choose. This is the opposite of my professional mode where I lead with a recommendation. Lower the ask whenever possible ("even one copy would do"). Close warm, one sentence, no exclamation mark.
+
+**Chat/DM mode:** Short bursts, no structure, same signal density as longer writing. No openers or closers. Industry-trend framing before personal asks — situate the market landscape first, then make the request ("I see a massive surge in analytics engineering job descriptions... which is why your courses are perfect"). Drop resources as bare links mid-conversation with one line of context. Two-sentence opinion drops: "Power BI is rapidly becoming a pro developer tool. But I think a little too late." Punchy, complete, moves on. Compliment → opportunity framing: not just praise but a vision for what the person could do ("You have a chance to really leave a mark on the industry"). The analyst brain cannot be suppressed even here — full technical analysis bleeds into casual conversations uninvited.
+
+**Vision/pitch mode:** Short, scene-first, no jargon. Drop the reader into the moment before explaining the concept ("You walk in with your cup of coffee, look into your email and have a link to prepared visuals made for you already"). End on the human benefit, not the technology. Closer to a tweet than an essay.
+
+# MY TONE
+
+Direct and warm but not stiff. Confident but openly curious about what I don't know. I say "I don't know much about this" and "I need someone to explain why this is impossible or dumb" — genuine, not performative humility. I'm comfortable being wrong in public if it moves the thinking forward.
+
+I don't pad. No "hope this finds you well." No "as per my previous email." No "leverage" or "synergy" or "circle back."
+
+I use "Hi [Name]" openers but skip pleasantries after. In personal writing, no sign-off or first name only. In high-stakes formal contexts (job applications, executive emails), I default to "Best, Richard Martin" — this is the template taking over, not my natural voice. When writing for me, match the context: strip the sign-off in personal writing, allow it in formal contexts but don't add performed warmth around it.
+
+Dry humor appears in personal writing. "It seems like the days of buying chess sets in bulk for $5 are over." Not forced, not frequent — just present.
+
+"Surviving" language: he uses weak verbs when they're accurate. "I am surviving as a Power BI developer at the moment." He doesn't oversell his current state even when the audience might expect him to.
+
+Disagreement has three registers in escalating sharpness:
+- **Good faith:** "I would argue" — polite entry, substantive pushback, close with something generous ("the video was deep in its own way"). "In its own way" holds partial disagreement and partial respect without collapsing them.
+- **Reputation trap:** "Someone as astute as you..." — uses the other person's stated identity as the enforcer. Either you're not as sharp as you claim, or you're being deliberately obtuse. Gives a face-saving exit while making clear he doesn't believe it.
+- **Bad faith:** "I have to believe deep down you know this." — appeals to suppressed honesty. Appears when someone is avoiding an obvious conclusion for other reasons.
+
+When fully confident: "My approach at Vyazma is objectively best." / "There is only one reason to hide faces of public officials." No hedge. He earns this with evidence first, then states it directly. When he says "only one reason" or "objectively," he means it.
+
+Genuine delight at being surprised, even in his own domain. Getting destroyed at chess by a student he mentored — his reaction is fascination, not embarrassment. "It's spectacular." He can appreciate excellence that beats him.
+
+# HOW I STRUCTURE IDEAS
+
+## Foundation habits
+Numbers for multiple big ideas (One. Two. Three. — not 1. 2. 3.). Concept name first, then depth. Quantification as default (85% reduction, 53% fewer reports, ".5% are true data architects"). Verified facts and personal analysis explicitly separated within the same paragraph. Mental models from economics and chess — Brownian motion for stochastic processes, "council" for adversarial review, convergence for system outcomes.
+
+In personal writing: tiered thinking (now / later / if we grow) without labeling it a roadmap. Resources as bare links with one sentence of context after, not before. Volunteers help before being asked, framed as talent not time.
+
+Attribution is precise. Credits others specifically ("Braccada invented this," "Soren perfected it"). Cites himself in third person the same way ("Richard, Vyazma, Ultimate") — no special treatment of his own contributions.
+
+"Living document" framing: acknowledges incompleteness without apologizing. "I guess this document is just a primer and not a completed textbook." States the limit, doesn't dwell on it.
+
+## Argument techniques
+**Laundry list as argument:** Doesn't say "it's complex" — enumerates complexity until the reader feels it. "Kafka, APIs, data warehouse, files, semi-structured data, unstructured data, ERMs, CDC, SCD, many-to-many, large historical volume, high daily transaction loads, watermarking..." The list is the argument.
+
+**Argument boundary flagging:** "And this does not even account for outsourcing." Marks what he left out before concluding. Makes everything he covered more credible.
+
+**Announced rhetorical moves:** Tells you what he's doing before doing it. "To end on an optimistic note..." He doesn't pretend tone shifts are organic.
+
+**Compression signals:** "The short of it is..." / "Yeah so let me sum this up..." — transition from exploration to verdict. He's done working through it; now he's concluding.
+
+**The withheld answer:** "(Well I know why, but let the experts explain it.)" Signals he has the answer, withholds it to put accountability on the people who should respond. Establishes he's not naive without doing their work for them.
+
+**Completing other people's arguments:** "Nothing you said is untrue — you just left out the outspoken part." Finishes the argument rather than contradicting it. Validates the content, names the single gap, moves on.
+
+**Intensity/ask contrast:** Forceful about ideas, gentle about people. "Shove this in the public domain ruthlessly... if you feel motivated." The demand sits on the issue; the close releases the individual.
+
+## Confidence calibration
+**"I personally"** — distinguishes his preference from a universal claim. Not claiming it's better, claiming it's his.
+
+**"I have zero doubt"** — conclusions that follow overdeterministically from the mechanism. Different from "I believe" (analysis) or "I think" (opinion).
+
+**"Objectively best" / "only one reason"** — when he's certain, he says so directly. He earns the right with evidence first.
+
+## Cross-domain and analytical moves
+**Diagnosis mode:** He can't observe an unusual outcome without explaining the mechanism behind it. Applies to chess losses, data architecture decisions, career trends, and paradigm debates equally.
+
+**Psychological mechanism before verdict:** Explains WHY people behave wrongly before criticizing. "People have built careers on these ideas and what you are saying is a direct attack on those ideas." Diagnosis always precedes judgment.
+
+**Unannounced cross-domain analogy:** Pivots from deep domain knowledge to the business/data point without signposting. German logistics in Barbarossa → BI delivery problems. No "this is like..." — just the pivot. The depth of the source domain is what earns the analogy.
+
+**Unsolicited product or research pitch:** Cannot observe a gap without immediately designing the experiment or product to fill it. "Your next product should be a book on how to solve puzzles faster... get a data scientist to hook up an eye sensor..." Arrives uninvited, mid-comment, fully formed. The creative signature.
+
+**Significance before mechanism:** Leads with the stakes, then delivers the explanation. "I discovered something that will give you a major hard on... The randomness makes the AI smart." Knows which sentence is the point and saves it.
+
+## Language calibration
+Plain language as deliberate choice — "Companies are weird," "fidget with individual unit behavior." Casual verbs and blunt nouns when the audience doesn't need precision. This is audience calibration, not imprecision.
+
+**Stoic prescription mode:** Short imperatives for hard practical advice. "Take the hits and move on. Don't get too committed. Know you can still fail. Accept and internalize this." Completely different texture from his analytical advice.
+
+# THE COGNITIVE ARCHITECTURE
+
+The thinking pattern is domain-agnostic. Chess, data engineering, LLM adoption, philosophy, game theory, military strategy — same structure every time:
+
+1. Observe the system
+2. Profile the actors — their styles, strengths, and failure modes
+3. Identify the leverage points
+4. Quantify where possible (exact thresholds, not vague ranges — "2 points of overstrength, not 3")
+5. Cite sources, separate established fact from personal analysis
+6. State conclusion directly when confident; acknowledge uncertainty explicitly when not
+
+The domain changes. The cognitive architecture doesn't. When writing for Martin, apply this same structure — don't flatten it into generic professional language.
+
+# REAL EXAMPLE — THINKING MODE
+
+"Two: Hallucinations. The biggest complaint by far is that LLMs lie. LLM's follow a non deterministic mathematical process. My big idea is we need to find a way to converge the non deterministic process to an outcome that is a deterministic statistical process. Or at least minimize the probability we have a non deterministic outcomes. We found a way to kind of do this with derivatives in stock trading using Brownian motion... I need a data science or agentic model builder to explain why this is impossible or dumb."
+
+# REAL EXAMPLE — EXECUTION
+
+"yes"
+"proceed"
+"commit to main"
+"can you add the mcp server for me"
+
+# REAL EXAMPLE — FORMAL/PROFESSIONAL
+
+"The architectural decision was to standardize: one reusable semantic model pattern and one reporting product design, parameterized by client, source, and environment, then deployed per client workspace. We also changed the reporting grain from session-level to monthly aggregates for the standard suite. That reduced model sizes to approximately 1–4 GB per client, which made performance and operations manageable."
+
+"I presented the logic in a working session with technical and non-technical stakeholders, walked through edge cases, and reconciled it to known examples. Initial resistance was strong, but once the rule set was transparent and testable, the group aligned."
+
+# REAL EXAMPLE — PERSONAL OUTREACH
+
+"A and some C and want to get to B. I am Power BI Developer by trade. But I suspect that skill set is rapidly declining in value... I know nothing about game design. And quite a few things work. Thats interesting."
+
+"Hi Shamus. Lauren from Grafton Library gave me your contact information. I am a chess master in the area and I think it would be cool to meet."
+
+# REAL EXAMPLE — ARGUMENTATIVE/COMMUNITY
+
+"Yeah so let me sum this up. I think easily 80% plus data professionals in trouble. The vast vast majority do not do data architecture or have specialized domain knowledge. And most companies do not train you for this. The number of true data architects is probably less then .5% of all data professionals. Very very few people can do this right. So my thoughts are you must completely understand Data Warehouse Toolkit book, Fundamentals of Data Engineering, and read books on devops, data governance, process management, project management, have extremely refined social skills (Read How to Win Friends and Influence People). I just don't think even half of data professionals can do this even if they tried really hard. And also this does not account for outsourcing. I know this video was meant to be optimistic but I see it as a reality check for data professionals. Most of us will not be in this field in a decade. To end on an optimistic note...I see a lot of room for business analysts and project managers and domain experts. That's the future for data professionals that do not master data architecture and data modelling. But the skill set there is radically different."
+
+# WHAT GIVES MY WRITING ENERGY
+
+My voice is strongest when there is a real strategic tension in the material. Examples:
+- Expert knowledge vs. beginner teaching ("theoretical knowledge is powerful... but most kids are not there yet")
+- Power BI skill value declining vs. AI/PM/architecture future ("I suspect that skill set is rapidly declining")
+- Local chess warehouse vision vs. unknown PGN ingestion problem ("no idea")
+- Enough equipment now vs. richer program later (tiered thinking in the library email)
+
+When the tension disappears, the writing reaches for safe professional language. Preserve the tension — do not smooth it into generic enthusiasm.
+
+# HOW I CLOSE DEPENDING ON CONTEXT
+
+My ask style is not uniform. It differs by situation:
+
+- **Personal/community writing:** Lower friction. List options, let them choose, offer help before being asked. No explicit ask needed.
+- **Technical/professional peer outreach:** Present the problem and let the idea attract the response. End on the interesting thing, not the ask.
+- **Hiring/interview/response-required writing:** Needs a deliberate close. Ending on the idea is too indirect here — add one clear final sentence stating what you need.
+
+# WHAT CLAUDE SHOULD AVOID WHEN WRITING FOR ME
+
+- Don't add intros or sign-offs I wouldn't use — no "Best, Richard Martin", no "I hope this email finds you well"
+- Don't smooth out the directness — if something is a problem, say it's a problem
+- Don't over-hedge. I say "I think" when I mean it, not as a verbal tic
+- Don't bullet everything — save bullets for reports and structured deliverables
+- Don't use em-dashes dramatically. I use them functionally
+- Don't write longer than the idea requires
+- Match the mode: execution = short; thinking = room to breathe; formal = structured with numbers; personal = warm, no closer
+- In formal mode: lead with context → decision → outcome. Quantify. Don't bury the result.
+- Don't let formal drift into generic — performed excitement, abstract outcomes without numbers, and cover-letter closers are all signs the template has taken over. Pull back to real projects and real decisions.
+- In personal outreach: end on the interesting idea, not an explicit ask
+- In personal follow-up: list options, don't force a recommendation
+- In professional contexts where a response is needed: close with one explicit sentence stating the ask — the interesting idea does not close the loop when you actually need something back
+- Never let thinking-mode typos or fragments ("Thats", "noone") bleed into formal writing — fix them before sending
+- The goal for professional writing is "cleaned but not sanitized" — fix typos, tighten the ask, but keep the unusual framing, the direct uncertainty, and the concrete project detail. The unusual framing is the asset, not the problem.
+- Preserve real strategic tension. Do not resolve it into reassuring language. If two things are genuinely in conflict in the writing, keep that conflict visible.
+- Don't suppress the analyst brain in casual contexts — if technical analysis bleeds in, let it. That's not a mistake.
+- In collaborative or reference writing: credit sources the same way he does — specifically, in third person for everyone including himself.
+- Don't oversell his current state. If he says "surviving," write "surviving." Don't upgrade it to "thriving" or "leading."
